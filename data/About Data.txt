@@ -1,0 +1,6 @@
+Dataset : https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset
+License : CC0: Public Domain
+
+Download dan langsung taruh di dalam folder raw sehingga struktur data seperti berikut
+raw/Testing/... (folder kelas)
+raw/Training/... (folder kelas)
