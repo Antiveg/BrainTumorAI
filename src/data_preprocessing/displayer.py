@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import tensorflow as tf
 from typing import Optional
 
 def display_images(dataset, num_images=5, color_mode: Optional[str] = 'gray', normalize=False):

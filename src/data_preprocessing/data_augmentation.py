@@ -1,8 +1,5 @@
-from typing import Optional, Tuple
-import tensorflow as tf
 from keras import layers, Sequential
 from tensorflow.data import Dataset
-from typing import Tuple
 
 def augment_data(dataset: Dataset) -> Dataset:
     
