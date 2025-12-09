@@ -1,10 +1,12 @@
 import tensorflow as tf
 from keras.models import Model
 import numpy as np
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, confusion_matrix
 from typing import List
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-def evaluate_model(model: Model, test_dataset: tf.data.Dataset, class_names: List[str]) -> tuple:
+def evaluate_model(model: Model, test_dataset: tf.data.Dataset, class_names: List[str], save_path=None) -> tuple:
 
     eval_metrics = model.evaluate(test_dataset)
     
@@ -37,4 +39,17 @@ def evaluate_model(model: Model, test_dataset: tf.data.Dataset, class_names: Lis
     print("\n=== Classification Report ===")
     print(report)
 
-    return test_loss, test_accuracy, report
+    cm = confusion_matrix(y_true, y_pred)
+
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=class_names, yticklabels=class_names)
+    plt.xlabel('Predicted Labels')
+    plt.ylabel('True Labels')
+    plt.title('Confusion Matrix')
+
+    if save_path:
+        plt.savefig(save_path)
+        print(f"Confusion matrix saved to {save_path}")
+    plt.show()
+
+    return test_loss, test_accuracy, report, cm
