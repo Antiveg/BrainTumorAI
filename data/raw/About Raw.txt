@@ -1,0 +1,1 @@
+Letakkan dataset dari Kaggle yang sudah di-download pada folder ini untuk memulai pipeline training model
