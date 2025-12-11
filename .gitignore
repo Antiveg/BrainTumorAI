@@ -208,3 +208,6 @@ __marimo__/
 
 data/raw/Training
 data/raw/testing
+saved/vgg16/fine_tuning/model.keras
+saved/resnet50v2/fine_tuning/model.keras
+saved_temporary

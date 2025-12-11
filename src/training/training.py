@@ -1,80 +1,10 @@
 from keras.applications import ResNet50, VGG16, MobileNetV2
-from keras import layers, models
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau
 import matplotlib.pyplot as plt
-from keras.models import Model
-from typing import Optional, Callable, Tuple
+from typing import Optional, Tuple
 import keras
 from tensorflow.data import Dataset
 import os
-
-def create_resnet50_model(
-        input_shape: Tuple[int, int, int] = (224, 224, 3), 
-        fine_tune: bool = False,
-        head_classifier: Optional[Callable] = None,
-        num_classes: int = 2,
-        show_info: bool = False) -> Model:
-
-    base_model = ResNet50(weights='imagenet', include_top=False, input_shape=input_shape)
-    
-    base_model.trainable = False
-    if fine_tune:
-        for layer in base_model.layers[-4:]:
-            layer.trainable = True
-    
-    model = models.Sequential([
-        base_model,
-        layers.GlobalAveragePooling2D(),
-        head_classifier() if head_classifier else layers.Dense(num_classes, activation='softmax')
-    ])
-    
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-    if show_info: model.summary()
-    return model
-
-def create_vgg16_model(input_shape: Tuple[int, int, int] = (224, 224, 3), 
-                       fine_tune: bool = False,
-                       head_classifier: Optional[Callable] = None,
-                       num_classes: int = 2,
-                       show_info: bool = False) -> Model:
-
-    base_model = VGG16(weights='imagenet', include_top=False, input_shape=input_shape)
-    
-    base_model.trainable = False
-    if fine_tune:
-        for layer in base_model.layers[-4:]:
-            layer.trainable = True
-    
-    model = models.Sequential([
-        base_model,
-        layers.GlobalAveragePooling2D(),
-        head_classifier() if head_classifier else layers.Dense(num_classes, activation='softmax')
-    ])
-    
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-    if show_info: model.summary()
-    return model
-
-def create_mobilenetv2_model(input_shape: Tuple[int, int, int] = (224, 224, 3), 
-                             fine_tune: bool = False,
-                             head_classifier: Optional[Callable] = None,
-                             num_classes: int = 2) -> Model:
-
-    base_model = MobileNetV2(weights='imagenet', include_top=False, input_shape=input_shape)
-    
-    base_model.trainable = False
-    if fine_tune:
-        for layer in base_model.layers[-4:]:
-            layer.trainable = True
-    
-    model = models.Sequential([
-        base_model,
-        layers.GlobalAveragePooling2D(),
-        head_classifier() if head_classifier else layers.Dense(num_classes, activation='softmax')
-    ])
-    
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-    return model
 
 def train_model(
     model: keras.Model, 
@@ -86,7 +16,7 @@ def train_model(
     
     callbacks = []
 
-    early_stopping = EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
+    early_stopping = EarlyStopping(monitor='val_loss', patience=4, restore_best_weights=True)
     callbacks.append(early_stopping)
 
     reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=2, verbose=1, mode='min')

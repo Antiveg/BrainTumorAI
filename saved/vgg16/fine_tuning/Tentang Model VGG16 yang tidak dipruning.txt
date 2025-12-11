@@ -1,0 +1,1 @@
+Model vgg16 fine-tuning yang tidak dipruning tidak bisa dimasukkan dalam github karena file melebihi 100 MB

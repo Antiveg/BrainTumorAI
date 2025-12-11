@@ -1,7 +1,7 @@
 import streamlit as st
 from PIL import Image
 import keras
-from src.utils.predict import predict
+from src.utils.model_utils import predict
 import pandas as pd
 
 class_details = {
@@ -19,9 +19,9 @@ class_details = {
 }
 
 model_types = {
-    'resnet50v2': './saved/resnet50v2/model.keras',
-    'vgg16': './saved/vgg16/model.keras',
-    'mobilenetv2': './saved/mobilenetv2/model.keras'
+    'resnet50v2': './saved/resnet50v2/fine_tuning/quantized_model.keras',
+    'vgg16': './saved/vgg16/fine_tuning/quantized_model.keras',
+    'mobilenetv2': './saved/mobilenetv2/fine_tuning/model.keras'
 }
 
 @st.cache_resource
